@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EC2 Instances</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .instance-details {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .instance-details p {
+            margin: 10px 0;
+        }
+
+        .instance-details hr {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px solid #eaeaea;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Your EC2 Instances</h1>
+
+    <!-- Filtering Dropdowns -->
+    <select id="stateFilter">
+        <option value="all">All States</option>
+        <!-- ... populate with other states -->
+    </select>
+
+    <select id="typeFilter">
+        <option value="all">All Types</option>
+        <!-- ... populate with instance types -->
+    </select>
+
+    <button onclick="filterInstances()">Filter</button>
+
+    <div id="instanceList">
+        {% for instance in instances %}
+            <div class="instance">
+                <p>Instance ID: {{ instance.id }}</p>
+                <p>Instance Type: {{ instance.instance_type }}</p>
+                <p>State: {{ instance.state["Name"] }}</p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('dashboard') }}">Back to dashboard</a>
+
+    <script>
+        function filterInstances() {
+            var state = $('#stateFilter').val();
+            var type = $('#typeFilter').val();
+            var url = "/ec2_instances?state=" + state + "&type=" + type;
+            
+            // Load the filtered list into our container
+            $("#instanceList").load(url + " #instanceList");
+        }
+    </script>
+</body>
+</html>

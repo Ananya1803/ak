@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your S3 Buckets</title>
+</head>
+<body>
+    <h1>Your S3 Buckets</h1>
+    <ul>
+        {% for bucket in buckets %}
+        <li>{{ bucket }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

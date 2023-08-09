@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f6;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        ul li:hover {
+            background-color: #e9e9e9;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .logout-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-link:hover {
+            background-color: #b22a37;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ session['email'] }}</h1>
+
+    <h2>Your S3 Buckets</h2>
+    <ul>
+        {% for bucket in buckets %}
+        <li><a href="{{ url_for('bucket_contents', bucket_name=bucket, prefix='') }}">{{ bucket }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Your EC2 Instances</h2>
+    <ul>
+        {% for instance in instances %}
+        <li>{{ instance }}</li>
+        {% endfor %}
+    </ul>
+
+    <a class="logout-link" href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
